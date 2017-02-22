@@ -4,7 +4,7 @@ language: R
 sudo: false
 cache: packages
 before_install:
-  - pip install --user --upgrade pip
-  - pip install --user numpy
-  - pip install --user scipy
-  - pip install --user -U scikit-learn
+  - pip install --user --quiet --upgrade pip
+  - pip install --user --quiet numpy
+  - pip install --user --quiet scipy
+  - pip install --user --quiet -U scikit-learn
