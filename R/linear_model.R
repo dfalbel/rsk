@@ -48,7 +48,6 @@ rsk_LinearRegression <- R6::R6Class(
 LinearRegression <- function(...){
   model <- rsk_LinearRegression$new()
   model$fit(...)
-  class(model) <- c("rsk", class(model))
   return(model)
 }
 
