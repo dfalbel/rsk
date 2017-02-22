@@ -9,6 +9,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    R6,
     reticulate
 Remotes: rstudio/reticulate
 RoxygenNote: 5.0.1
