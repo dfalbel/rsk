@@ -4,4 +4,4 @@ language: R
 sudo: false
 cache: packages
 install:
-  pip install scikit-learn
+  - pip install -U scikit-learn
