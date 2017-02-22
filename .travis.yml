@@ -3,7 +3,7 @@
 language: R
 sudo: false
 cache: packages
-install:
+before_install:
   - pip install --user --upgrade pip
   - pip install --user numpy
   - pip install --user scipy
