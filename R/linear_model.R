@@ -30,8 +30,8 @@ rsk_LinearRegression <- R6::R6Class(
   inherit = rsk_model,
   public = list(
     initialize = function(fit_intercept, normalize, copy_X, n_jobs){
-      self$pointer <- sklearn$linear_model$LinearRegression(fit_intercept, normalize, copy_X, n_jobs)
-      self$pickle <- pickle$dumps(self$pointer)
+      private$pointer <- sklearn$linear_model$LinearRegression(fit_intercept, normalize, copy_X, n_jobs)
+      private$pickle <- pickle$dumps(private$pointer)
     }
   )
 )
@@ -137,7 +137,7 @@ rsk_LogisticRegression <- R6::R6Class(
     initialize = function(penalty, dual, C, fit_intercept, intercept_scaling,
                           class_weight, max_iter, random_state, solver, tol,
                           multi_class, verbose, warm_start, n_jobs){
-      self$pointer <- sklearn$linear_model$LogisticRegression(
+      private$pointer <- sklearn$linear_model$LogisticRegression(
         penalty = penalty, dual = dual, C = C,
         fit_intercept = fit_intercept,
         intercept_scaling = intercept_scaling,
@@ -147,7 +147,7 @@ rsk_LogisticRegression <- R6::R6Class(
         tol = tol,
         multi_class = multi_class, verbose = verbose,
         warm_start = warm_start, n_jobs = n_jobs)
-      self$pickle <- pickle$dumps(self$pointer)
+      private$pickle <- pickle$dumps(private$pointer)
     }
   )
 )
