@@ -2,11 +2,16 @@
 
 language: R
 sudo: false
+
+addons:
+  apt:
+    packages:
+      - python-numpy
+      - python-scipy
+
 cache:
   - packages
-  - pip
+
 before_install:
   - pip install --user --quiet --upgrade pip
-  - travis_wait pip install --user --quiet numpy
-  - travis_wait pip install --user --quiet scipy
   - travis_wait pip install --user --quiet -U scikit-learn
