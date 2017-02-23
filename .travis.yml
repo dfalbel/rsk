@@ -8,8 +8,10 @@ addons:
     packages:
       - python-numpy
       - python-scipy
-      - python-sklearn
 
 cache:
   - packages
 
+before_install:
+  - pip install --user --quiet --upgrade pip
+  - pip install --user --quiet -U scikit-learn
