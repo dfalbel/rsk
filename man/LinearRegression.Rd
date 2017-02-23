@@ -34,9 +34,8 @@ before calling fit on an estimator with normalize=False.}
 else, it may be overwritten.}
 
 \item{n_jobs}{int, optional, default 1. The number of jobs to use for the
-computation. If -1 all CPUs are used. This will only provide speedup for}
-
-\item{n_targets}{1 and sufficient large problems.}
+computation. If -1 all CPUs are used. This will only provide speedup for
+n_targets > 1 and sufficient large problems.}
 }
 \description{
 Ordinary least squares Linear Regression.

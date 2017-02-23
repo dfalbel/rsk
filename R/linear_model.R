@@ -20,7 +20,7 @@
 #' else, it may be overwritten.
 #' @param n_jobs int, optional, default 1. The number of jobs to use for the
 #' computation. If -1 all CPUs are used. This will only provide speedup for
-#' @param n_targets > 1 and sufficient large problems.
+#' n_targets > 1 and sufficient large problems.
 #'
 #' @name LinearRegression
 NULL
