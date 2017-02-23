@@ -1,6 +1,6 @@
 context("linear_model")
 
-test_that("LogisticRegression", {
+test_that("LinearRegression", {
 
   model_rsk <- LinearRegression(as.matrix(mtcars[,c(3,4,5)]), mtcars$mpg)
   pred_rsk <- as.numeric(predict(model_rsk, as.matrix(mtcars[,c(3,4,5)])))
@@ -17,4 +17,12 @@ test_that("LogisticRegression", {
   pred_rsk <- predict(model_rsk, as.matrix(iris[,1:2]))
 
   expect_length(pred_rsk, 150)
+})
+
+test_that("Ridge", {
+
+  model_rsk <- Ridge(as.matrix(mtcars[,c(3,4,5)]), mtcars$mpg)
+  pred_rsk <- as.numeric(predict(model_rsk, as.matrix(mtcars[,c(3,4,5)])))
+
+  expect_length(pred_rsk, 32)
 })

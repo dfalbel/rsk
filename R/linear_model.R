@@ -87,7 +87,7 @@ predict.rsk_LinearRegression <- function(model, x, ...){
 #' @param intercept_scaling float, default 1.
 #' Useful only when the solver 'liblinear' is used
 #' and self.fit_intercept is set to True. In this case, x becomes
-#' [x, self.intercept_scaling],
+#' (x, self.intercept_scaling),
 #' i.e. a "synthetic" feature with constant value equal to
 #' intercept_scaling is appended to the instance vector.
 #' The intercept becomes ``intercept_scaling * synthetic_feature_weight``.
@@ -197,4 +197,116 @@ predict.rsk_LogisticRegression <- function(model, x, type = "class", ...){
     predictions <- model$predict_proba(x)
   }
   return(predictions)
+}
+
+# Ridge -------------------------------------------------------------------
+
+#' Ridge
+#'
+#' Linear least squares with l2 regularization.
+#' This model solves a regression model where the loss function is the linear
+#' least squares function and regularization is given by the l2-norm. Also known
+#' as Ridge Regression or Tikhonov regularization. This estimator has built-in
+#' support for multi-variate regression (i.e., when y is a 2d-array of shape
+#' [n_samples, n_targets]).
+#' Read more in the [User Guide](http://scikit-learn.org/stable/modules/linear_model.html#ridge-regression).
+#'
+#' @param alpha {float, array-like}, shape (n_targets)
+#' Regularization strength; must be a positive float. Regularization
+#' improves the conditioning of the problem and reduces the variance of
+#' the estimates. Larger values specify stronger regularization.
+#' Alpha corresponds to ``C^-1`` in other linear models such as
+#' LogisticRegression or LinearSVC. If an array is passed, penalties are
+#' assumed to be specific to the targets. Hence they must correspond in
+#' number.
+#' @param copy_X boolean, optional, default True
+#' If True, X will be copied; else, it may be overwritten.
+#' @param fit_intercept boolean
+#' Whether to calculate the intercept for this model. If set
+#' to false, no intercept will be used in calculations
+#' (e.g. data is expected to be already centered).
+#' max_iter : int, optional
+#' Maximum number of iterations for conjugate gradient solver.
+#' For 'sparse_cg' and 'lsqr' solvers, the default value is determined
+#' by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.
+#' normalize : boolean, optional, default False
+#' If True, the regressors X will be normalized before regression.
+#' This parameter is ignored when `fit_intercept` is set to False.
+#' When the regressors are normalized, note that this makes the
+#' hyperparameters learnt more robust and almost independent of the number
+#' of samples. The same property is not valid for standardized data.
+#' However, if you wish to standardize, please use
+#' `preprocessing.StandardScaler` before calling `fit` on an estimator
+#' with `normalize=False`.
+#' @param solver {'auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag'}
+#' Solver to use in the computational routines:
+#'   - 'auto' chooses the solver automatically based on the type of data.
+#' - 'svd' uses a Singular Value Decomposition of X to compute the Ridge
+#' coefficients. More stable for singular matrices than
+#' 'cholesky'.
+#' - 'cholesky' uses the standard scipy.linalg.solve function to
+#' obtain a closed-form solution.
+#' - 'sparse_cg' uses the conjugate gradient solver as found in
+#' scipy.sparse.linalg.cg. As an iterative algorithm, this solver is
+#' more appropriate than 'cholesky' for large-scale data
+#' (possibility to set `tol` and `max_iter`).
+#' - 'lsqr' uses the dedicated regularized least-squares routine
+#' scipy.sparse.linalg.lsqr. It is the fastest but may not be available
+#' in old scipy versions. It also uses an iterative procedure.
+#' - 'sag' uses a Stochastic Average Gradient descent. It also uses an
+#' iterative procedure, and is often faster than other solvers when
+#' both n_samples and n_features are large. Note that 'sag' fast
+#' convergence is only guaranteed on features with approximately the
+#' same scale. You can preprocess the data with a scaler from
+#' sklearn.preprocessing.
+#' All last four solvers support both dense and sparse data. However,
+#' only 'sag' supports sparse input when `fit_intercept` is True.
+#' @param tol float
+#' Precision of the solution.
+#' @param random_state int seed, RandomState instance, or None (default)
+#' The seed of the pseudo random number generator to use when
+#' shuffling the data. Used only in 'sag' solver.
+#'
+#' @name Ridge
+NULL
+
+#' @rdname Ridge
+rsk_Ridge <- R6::R6Class(
+  "rsk_Ridge",
+  inherit = rsk_model,
+  public = list(
+    initialize = function(alpha, fit_intercept, normalize, copy_X, max_iter, tol,
+                          solver, random_state){
+      private$pointer <- sklearn$linear_model$Ridge(alpha = alpha,
+                                                    fit_intercept = fit_intercept,
+                                                    normalize = normalize,
+                                                    copy_X = copy_X,
+                                                    max_iter = max_iter,
+                                                    tol = tol,
+                                                    solver = solver,
+                                                    random_state = random_state
+                                                    )
+      private$pickle <- pickle$dumps(private$pointer)
+    }
+  )
+)
+
+#' @rdname Ridge
+#' @export
+Ridge <- function(alpha=1.0, fit_intercept=TRUE, normalize=FALSE, copy_X=TRUE,
+                  max_iter=NULL, tol=0.001, solver='auto', random_state=NULL){
+  model <- rsk_Ridge$new(alpha = alpha,
+                         fit_intercept = fit_intercept,
+                         normalize = normalize,
+                         copy_X = copy_X,
+                         max_iter = max_iter,
+                         tol = tol,
+                         solver = solver,
+                         random_state = random_state)
+  model$fit(x, y)
+  return(model)
+}
+
+predict.rsk_Ridge <- function(model, x, ...){
+  model$predict(x)
 }

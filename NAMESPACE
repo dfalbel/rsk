@@ -2,3 +2,4 @@
 
 export(LinearRegression)
 export(LogisticRegression)
+export(Ridge)
