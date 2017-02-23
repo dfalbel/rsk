@@ -10,10 +10,15 @@
 \usage{
 rsk_Ridge
 
-Ridge(alpha = 1, fit_intercept = TRUE, normalize = FALSE, copy_X = TRUE,
-  max_iter = NULL, tol = 0.001, solver = "auto", random_state = NULL)
+Ridge(x, y, alpha = 1, fit_intercept = TRUE, normalize = FALSE,
+  copy_X = TRUE, max_iter = NULL, tol = 0.001, solver = "auto",
+  random_state = NULL)
 }
 \arguments{
+\item{x}{matrix. Training Data}
+
+\item{y}{matrix. Target Values}
+
 \item{alpha}{{float, array-like}, shape (n_targets)
 Regularization strength; must be a positive float. Regularization
 improves the conditioning of the problem and reduces the variance of
@@ -26,12 +31,9 @@ number.}
 \item{fit_intercept}{boolean
 Whether to calculate the intercept for this model. If set
 to false, no intercept will be used in calculations
-(e.g. data is expected to be already centered).
-max_iter : int, optional
-Maximum number of iterations for conjugate gradient solver.
-For 'sparse_cg' and 'lsqr' solvers, the default value is determined
-by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.
-normalize : boolean, optional, default False
+(e.g. data is expected to be already centered).}
+
+\item{normalize}{boolean, optional, default False
 If True, the regressors X will be normalized before regression.
 This parameter is ignored when \code{fit_intercept} is set to False.
 When the regressors are normalized, note that this makes the
@@ -43,6 +45,11 @@ with \code{normalize=False}.}
 
 \item{copy_X}{boolean, optional, default True
 If True, X will be copied; else, it may be overwritten.}
+
+\item{max_iter}{int, optional
+Maximum number of iterations for conjugate gradient solver.
+For 'sparse_cg' and 'lsqr' solvers, the default value is determined
+by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.}
 
 \item{tol}{float
 Precision of the solution.}
@@ -83,7 +90,7 @@ This model solves a regression model where the loss function is the linear
 least squares function and regularization is given by the l2-norm. Also known
 as Ridge Regression or Tikhonov regularization. This estimator has built-in
 support for multi-variate regression (i.e., when y is a 2d-array of shape
-\link{n_samples, n_targets}).
+(n_samples, n_targets).
 Read more in the \href{http://scikit-learn.org/stable/modules/linear_model.html#ridge-regression}{User Guide}.
 }
 \keyword{datasets}
