@@ -1,14 +1,3 @@
-rsk_LinearRegression <- R6::R6Class(
-  "rsk_LinearRegression",
-  inherit = rsk_model,
-  public = list(
-    initialize = function(fit_intercept, normalize, copy_X, n_jobs){
-      self$pointer <- sklearn$linear_model$LinearRegression(fit_intercept, normalize, copy_X, n_jobs)
-      self$pickle <- pickle$dumps(self$pointer)
-    }
-  )
-)
-
 #' Linear Regression
 #'
 #'
@@ -30,6 +19,22 @@ rsk_LinearRegression <- R6::R6Class(
 #' computation. If -1 all CPUs are used. This will only provide speedup for
 #' n_targets > 1 and sufficient large problems.
 #'
+#' @name LinearRegression
+NULL
+
+#' @rdname LinearRegression
+rsk_LinearRegression <- R6::R6Class(
+  "rsk_LinearRegression",
+  inherit = rsk_model,
+  public = list(
+    initialize = function(fit_intercept, normalize, copy_X, n_jobs){
+      self$pointer <- sklearn$linear_model$LinearRegression(fit_intercept, normalize, copy_X, n_jobs)
+      self$pickle <- pickle$dumps(self$pointer)
+    }
+  )
+)
+
+#' @rdname LinearRegression
 #' @export
 LinearRegression <- function(x, y, fit_intercept = TRUE, normalize = FALSE,
                              copy_X = TRUE, n_jobs = 1){
@@ -38,6 +43,6 @@ LinearRegression <- function(x, y, fit_intercept = TRUE, normalize = FALSE,
   return(model)
 }
 
-predict.rsk_LinearRegression <- function(model, ...){
-  model$predict(...)
+predict.rsk_LinearRegression <- function(model, x){
+  model$predict(x)
 }
