@@ -4,6 +4,7 @@
 \name{LinearRegression}
 \alias{LinearRegression}
 \alias{rsk_LinearRegression}
+\alias{LinearRegression}
 \title{Linear Regression}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
@@ -37,7 +38,6 @@ computation. If -1 all CPUs are used. This will only provide speedup for
 n_targets > 1 and sufficient large problems.}
 }
 \description{
-Linear Regression
+Ordinary least squares Linear Regression.
 }
 \keyword{datasets}
-

@@ -2,6 +2,7 @@
 
 #' Linear Regression
 #'
+#' Ordinary least squares Linear Regression.
 #'
 #' @param x matrix. Training Data
 #' @param y matrix. Target Values
@@ -49,28 +50,41 @@ predict.rsk_LinearRegression <- function(model, x, ...){
   model$predict(x)
 }
 
-
 # LogisticRegression ------------------------------------------------------
 
 #' Logistic Regression
 #'
+#' Logistic Regression (aka logit, MaxEnt) classifier.
+#' In the multiclass case, the training algorithm uses the one-vs-rest (OvR) scheme
+#' if the ‘multi_class’ option is set to ‘ovr’, and uses the cross- entropy loss if
+#' the ‘multi_class’ option is set to ‘multinomial’. (Currently the ‘multinomial’
+#' option is supported only by the ‘lbfgs’, ‘sag’ and ‘newton-cg’ solvers.)
+#' This class implements regularized logistic regression using the ‘liblinear’
+#' library, ‘newton-cg’, ‘sag’ and ‘lbfgs’ solvers. It can handle both dense and
+#' sparse input. Use C-ordered arrays or CSR matrices containing 64-bit floats
+#' for optimal performance; any other input format will be converted (and copied).
+#' The ‘newton-cg’, ‘sag’, and ‘lbfgs’ solvers support only L2 regularization
+#' with primal formulation. The ‘liblinear’ solver supports both L1 and L2
+#' regularization, with a dual formulation only for the L2 penalty.
+#' Read more in the [User Guide](http://scikit-learn.org/stable/modules/linear_model.html#logistic-regression).
+#'
 #' @param x matrix. Training Data
 #' @param y matrix. Target Values
-#' @param penalty : str, 'l1' or 'l2', default: 'l2'
+#' @param penalty str, 'l1' or 'l2', default: 'l2'
 #' Used to specify the norm used in the penalization. The 'newton-cg',
 #' 'sag' and 'lbfgs' solvers support only l2 penalties.
-#' @param dual : bool, default: False
+#' @param dual bool, default: False
 #' Dual or primal formulation. Dual formulation is only implemented for
 #' l2 penalty with liblinear solver. Prefer dual=False when
 #' n_samples > n_features.
-#' @param C : float, default: 1.0
+#' @param C float, default: 1.0
 #' Inverse of regularization strength; must be a positive float.
 #' Like in support vector machines, smaller values specify stronger
 #' regularization.
-#' @param fit_intercept : bool, default: True
+#' @param fit_intercept bool, default: True
 #' Specifies if a constant (a.k.a. bias or intercept) should be
 #' added to the decision function.
-#' @param intercept_scaling : float, default 1.
+#' @param intercept_scaling float, default 1.
 #' Useful only when the solver 'liblinear' is used
 #' and self.fit_intercept is set to True. In this case, x becomes
 #' [x, self.intercept_scaling],
@@ -81,7 +95,7 @@ predict.rsk_LinearRegression <- function(model, x, ...){
 #' as all other features.
 #' To lessen the effect of regularization on synthetic feature weight
 #' (and therefore on the intercept) intercept_scaling has to be increased.
-#' @param class_weight : dict or 'balanced', default: None
+#' @param class_weight dict or 'balanced', default: None
 #' Weights associated with classes in the form ``{class_label: weight}``.
 #' If not given, all classes are supposed to have weight one.
 #' The "balanced" mode uses the values of y to automatically adjust
@@ -90,13 +104,13 @@ predict.rsk_LinearRegression <- function(model, x, ...){
 #' Note that these weights will be multiplied with sample_weight (passed
 #' through the fit method) if sample_weight is specified.
 #' New in version 0.17: class_weight=’balanced’ instead of deprecated class_weight=’auto’.
-#' @param max_iter : int, default: 100
+#' @param max_iter int, default: 100
 #' Useful only for the newton-cg, sag and lbfgs solvers.
 #' Maximum number of iterations taken for the solvers to converge.
-#' @param random_state : int seed, RandomState instance, default: None
+#' @param random_state int seed, RandomState instance, default: None
 #' The seed of the pseudo random number generator to use when
 #' shuffling the data. Used only in solvers 'sag' and 'liblinear'.
-#' @param solver : {'newton-cg', 'lbfgs', 'liblinear', 'sag'}, default: 'liblinear'
+#' @param solver str {'newton-cg', 'lbfgs', 'liblinear', 'sag'}, default: 'liblinear'
 #' Algorithm to use in the optimization problem.
 #' - For small datasets, 'liblinear' is a good choice, whereas 'sag' is
 #' faster for large ones.
@@ -108,7 +122,7 @@ predict.rsk_LinearRegression <- function(model, x, ...){
 #' approximately the same scale. You can preprocess the data with a
 #' scaler from sklearn.preprocessing.
 #' New in version 0.17: Stochastic Average Gradient descent solver.
-#' @param tol : float, default: 1e-4
+#' @param tol float, default: 1e-4
 #' Tolerance for stopping criteria.
 #' @param multi_class str, {‘ovr’, ‘multinomial’}, default: ‘ovr’
 #' Multiclass option can be either ‘ovr’ or ‘multinomial’. If the option chosen
@@ -184,4 +198,3 @@ predict.rsk_LogisticRegression <- function(model, x, type = "class", ...){
   }
   return(predictions)
 }
-
